@@ -1,21 +1,17 @@
 # shop-services
-Product Service has 2 lambda functions:
-- getProductsList
-    - url: https://kzdx8lc0v0.execute-api.eu-west-1.amazonaws.com/dev/products
+task4.1 - done (databese instance in RDS is created, SQL scripts are present) \
+task4.2 - done (lambda functions are integrated with DB) \
+task4.3 - done (createProduct is present and working) 
 
-- getProductById
-    - url: https://kzdx8lc0v0.execute-api.eu-west-1.amazonaws.com/dev/products/2
-    - 400 error https://kzdx8lc0v0.execute-api.eu-west-1.amazonaws.com/dev/products/999
+FE does not need any changes (product model is correct, interaction with AWS lambda was done in previous task), link to repo https://github.com/ArtemPrydorozhko/shop-angular-cloudfront
 
-Updated frontend to use lambdas https://github.com/ArtemPrydorozhko/shop-angular-cloudfront/pull/2
-getProductsList usage http://testshopawsbucket2.s3-website-us-east-1.amazonaws.com/
-getProductById usage http://testshopawsbucket2.s3-website-us-east-1.amazonaws.com/admin/products
+FE app http://testshopawsbucket2.s3-website-us-east-1.amazonaws.com \
+add a new product link http://testshopawsbucket2.s3-website-us-east-1.amazonaws.com/admin/products/new
+
+Additional (optional) tasks
+ - POST /products lambda functions returns error 400 status code if product data is invalid
+ - All lambdas return error 500 status code on any error (DB connection, any unhandled error in code)
+ - All lambdas do console.log for each incoming requests
+ - Transaction based creation of product ("BEGIN", "COMMIT", "ROLLBACK" queries in createProduct.js)
 
 
-Additional (optional) tasks:
-- Async/await in handlers
-- ES6 modules are used for Product Service implementation
-- Webpack with babel-loader is configured for Product Service
-- Lambda handlers are covered by basic UNIT tests
-- Lambda handlers (getProductsList, getProductsById) code is written in separate modules
-- Main error scenarios are handled by API("Product not found" error)

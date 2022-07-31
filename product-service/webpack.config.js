@@ -1,5 +1,6 @@
 const slsw = require("serverless-webpack");
 const path = require("path");
+const webpack = require('webpack')
 
 module.exports = {
   entry: slsw.lib.entries,
@@ -23,6 +24,7 @@ module.exports = {
       },
     ],
   },
+  plugins: [new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ })],
   optimization: {
     minimize: false,
   },
