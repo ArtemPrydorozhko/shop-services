@@ -1,17 +1,22 @@
-# shop-services
-task4.1 - done (databese instance in RDS is created, SQL scripts are present) \
-task4.2 - done (lambda functions are integrated with DB) \
-task4.3 - done (createProduct is present and working) 
+# import-service
 
-FE does not need any changes (product model is correct, interaction with AWS lambda was done in previous task), link to repo https://github.com/ArtemPrydorozhko/shop-angular-cloudfront
+Task5.1 \
+separate import-service is created with its own serverless.yml
 
-FE app http://testshopawsbucket2.s3-website-us-east-1.amazonaws.com \
-add a new product link http://testshopawsbucket2.s3-website-us-east-1.amazonaws.com/admin/products/new
+Task5.2 \
+created and configured lambda function importProductsFile
 
-Additional (optional) tasks
- - POST /products lambda functions returns error 400 status code if product data is invalid
- - All lambdas return error 500 status code on any error (DB connection, any unhandled error in code)
- - All lambdas do console.log for each incoming requests
- - Transaction based creation of product ("BEGIN", "COMMIT", "ROLLBACK" queries in createProduct.js)
+Task5.3 \
+created and configured lambda function importFileParser
 
+Additional (optional) tasks \
+async/await is used in lambda functions - done \
+importProductsFile lambda is covered by unit tests - done \
+At the end of the stream the lambda function should move the file from the uploaded folder into the parsed folder - done
+
+Integrated with FE, PR: \
+https://github.com/ArtemPrydorozhko/shop-angular-cloudfront/pull/3
+
+admin panel to import csv files: \
+https://d1ty74fm6yb21c.cloudfront.net/admin/products
 
