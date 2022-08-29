@@ -17,6 +17,15 @@ provider:
         - "s3:*"
       Resource:
         - "arn:aws:s3:::shopproductscatalog/*"
+    - Effect: "Allow"
+      Action:
+        - "sqs:SendMessage"
+      Resource:
+        - "arn:aws:sqs:${aws:region}:${aws:accountId}:product-service-dev-catalogItemsQueue"
+  environment:
+    catalogItemsQueueUrl: ${env:catalogItemsQueueUrl}
+
+useDotenv: true
 
 plugins:
   - serverless-webpack
