@@ -30,6 +30,9 @@ const importProductsFile = async (event) => {
     return commonResponse({
       statusCode: 200,
       body: JSON.stringify({ url: signedUrl }),
+      headers: {
+        "Access-Control-Allow-Origin": "https://d1ty74fm6yb21c.cloudfront.net",
+      },
     });
   } catch (error) {
     console.error("importProductsFile", error.message);

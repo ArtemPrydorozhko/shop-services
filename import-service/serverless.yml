@@ -37,11 +37,30 @@ functions:
       - http:
           path: import
           method: get
-          cors: true
+          cors:
+            origins:
+              - https://d1ty74fm6yb21c.cloudfront.net
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - X-Amzn-Trace-Id
+              - pragma
+              - cache-control
+            allowCredentials: true
           request:
             parameters:
               querystrings:
                 name: true
+          authorizer: 
+            arn: arn:aws:lambda:${aws:region}:${aws:accountId}:function:authorization-service-dev-basicAuthorizer
+            type: token
+            resultTtlInSeconds: 0
+            identityValidationExpression: '^Basic .*'
+
   importFileParser:
     handler: handlers/importFileParser.importFileParser
     events:
