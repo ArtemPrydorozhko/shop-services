@@ -1,22 +1,13 @@
 # import-service
+# TASK 6
 
-Task5.1 \
-separate import-service is created with its own serverless.yml
+&check; File serverless.yml contains configuration for catalogBatchProcess function \
+&check;  File serverless.yml contains policies to allow lambda catalogBatchProcess function to interact with SNS and SQS \
+&check;File serverless.yml contains configuration for SQS catalogItemsQueue \
+&check; File serverless.yml contains configuration for SNS Topic createProductTopic and email subscription
 
-Task5.2 \
-created and configured lambda function importProductsFile
+Additional (optional) tasks
 
-Task5.3 \
-created and configured lambda function importFileParser
-
-Additional (optional) tasks \
-async/await is used in lambda functions - done \
-importProductsFile lambda is covered by unit tests - done \
-At the end of the stream the lambda function should move the file from the uploaded folder into the parsed folder - done
-
-Integrated with FE, PR: \
-https://github.com/ArtemPrydorozhko/shop-angular-cloudfront/pull/3
-
-admin panel to import csv files: \
-https://d1ty74fm6yb21c.cloudfront.net/admin/products
+&check; catalogBatchProcess lambda is covered by unit tests \
+&check; set a Filter Policy for SNS createProductTopic in serverless.yml and create an additional email subscription to distribute messages to different emails depending on the filter for any product attribute
 

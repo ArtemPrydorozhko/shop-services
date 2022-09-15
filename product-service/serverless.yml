@@ -6,17 +6,25 @@ provider:
   runtime: nodejs12.x
   stage: dev
   region: eu-west-1
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "sns:Publish"
+      Resource:
+        - !Ref createProductTopic
   environment:
     PG_HOST: ${env:PG_HOST}
     PG_PORT: ${env:PG_PORT}
     PG_DATABASE: ${env:PG_DATABASE}
     PG_USERNAME: ${env:PG_USERNAME}
     PG_PASSWORD: ${env:PG_PASSWORD}
+    createProductTopic: !Ref createProductTopic
 
 useDotenv: true
 
 plugins:
   - serverless-webpack
+  - serverless-lift
 
 functions:
   getProductsList:
@@ -41,8 +49,37 @@ functions:
           method: post
           cors: true
 
+constructs:
+  catalogItemsQueue:
+    type: queue
+    worker:
+      handler: handlers/catalogBatchProcess.catalogBatchProcess
+    batchSize: 5
+
 custom:
   webpack:
     webpackConfig: "webpack.config.js"
     includeModules: false
     packager: "npm"
+
+resources:
+  Resources:
+    createProductTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        DisplayName: Create Product Topic
+        TopicName: createProductTopic
+    createProductTopicSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: '${env:SNS_SUBSCRIPTION_EMAIL}'
+        Protocol: 'email'
+        TopicArn: {"Ref": "createProductTopic"}
+        FilterPolicy: '{"count":[{"numeric":["<=",400]}]}'
+    createProductTopicSubscriptionSecond:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: '${env:SNS_SUBSCRIPTION_EMAIL_SECOND}'
+        Protocol: 'email'
+        TopicArn: {"Ref": "createProductTopic"}
+        FilterPolicy: '{"count":[{"numeric":[">",400]}]}'
